@@ -161,7 +161,8 @@ def connection(**kwargs):
         password = kwargs.pop("password")
         username = format_username(kwargs)
     # Build server pool
-    server_pool = ldap3.ServerPool(None, ldap3.RANDOM, active=True, exhaust=5)
+    # Brainomix change: Only make 3 attempts to find an active server (active=3)
+    server_pool = ldap3.ServerPool(None, ldap3.RANDOM, active=3, exhaust=5)
     auth_url = settings.LDAP_AUTH_URL
     if not isinstance(auth_url, list):
         auth_url = [auth_url]
